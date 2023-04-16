@@ -12,6 +12,7 @@ import dev.slimevr.platform.SteamVRBridge;
 import dev.slimevr.platform.linux.UnixSocketBridge;
 import dev.slimevr.platform.windows.WindowsNamedPipeBridge;
 import dev.slimevr.poserecorder.BVHRecorder;
+import dev.slimevr.posestreamer.JsonPoseServer;
 import dev.slimevr.protocol.ProtocolAPI;
 import dev.slimevr.reset.ResetHandler;
 import dev.slimevr.serial.ProvisioningHandler;
@@ -58,6 +59,8 @@ public class VRServer extends Thread {
 	private final VMCHandler vmcHandler;
 	private final DeviceManager deviceManager;
 	private final BVHRecorder bvhRecorder;
+	private final JsonPoseServer jsonPoseServer;
+
 	private final SerialHandler serialHandler;
 	private final AutoBoneHandler autoBoneHandler;
 	private final ProtocolAPI protocolAPI;
@@ -213,6 +216,7 @@ public class VRServer extends Thread {
 		oscRouter = new OSCRouter(getConfigManager().getVrConfig().getOscRouter(), oscHandlers);
 
 		bvhRecorder = new BVHRecorder(this);
+		jsonPoseServer = new JsonPoseServer(this);
 
 		registerTracker(hmdTracker);
 		for (Tracker tracker : shareTrackers) {
